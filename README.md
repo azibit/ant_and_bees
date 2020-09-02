@@ -1,15 +1,24 @@
-# Starter for deploying [fast.ai](https://www.fast.ai) models on [Render](https://render.com)
+# Starter for deploying [PyTorch](http://pytorch.org/) models on [Render](https://render.com)
 
-This repo can be used as a starting point to deploy [fast.ai](https://github.com/fastai/fastai) models on Render.
+This repo was originally for deploying FastAI models on Render. Now, we have modified the code to read Pytorch trained models and deploy on Render.
 
-The sample app described here is up at https://fastai-v3.onrender.com. Test it out with bear images!
+### Step 1: Build the Model
+Run the following Google Colab to build a model you would be using: https://colab.research.google.com/drive/1HQCyAlKkdiT_48OoYsvqYxsurmYAIGqP?usp=sharing . This notebook contains a minimal code that only focuses on building the model. 
 
-You can test your changes locally by installing Docker and using the following command:
+If you need more information about the model, you can check out this Google Colab
+https://colab.research.google.com/drive/1IbzIbVE5CvPZ_Ni6ZSY3lBdD_dy5BPW2?usp=sharing
 
-```
-docker build -t fastai-v3 . && docker run --rm -it -p 5000:5000 fastai-v3
-```
 
-The guide for production deployment to Render is at https://course.fast.ai/deployment_render.html.
+### Step 2: Save the Full Model Online
+After training, save the model to a location online where you can get a link to it. My model is saved on Amazon S3 and here is my link: https://aidris559lab4.s3.amazonaws.com/Trained_Model_For_Ant_And_Bees/full_model_export1.pkl
 
-Please use [Render's fast.ai forum thread](https://forums.fast.ai/t/deployment-platform-render/33953) for questions and support.
+### Step 3: Update server.py
+Based on how we trained our model, we update a few code in the server.py file to use the transformation that was used to create our training and test images.
+
+### Step 4: Update index.html
+Update the index.html to match the classes you are predicting.
+
+### Step 5: Now Use Render
+When you visit the Render Website, create a new Web Service and link this project to Render. Every time you push to the master branch, a new deployment is done. And you get a link to the website once its done. Mine is at: https://ants-and-bees.onrender.com/
+
+** Note: Because Render charges for deployment after a while, I would only have this project up for a while after which it might not be available. Feel free to reach out if you encounter any bugs.
