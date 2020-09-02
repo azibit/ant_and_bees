@@ -13,7 +13,8 @@ https://colab.research.google.com/drive/1IbzIbVE5CvPZ_Ni6ZSY3lBdD_dy5BPW2?usp=sh
 After training, save the model to a location online where you can get a link to it. My model is saved on Amazon S3 and here is my link: https://aidris559lab4.s3.amazonaws.com/Trained_Model_For_Ant_And_Bees/full_model_export1.pkl
 
 ### Step 3: Update server.py
-Based on how we trained our model, we update a few code in the server.py file to use the transformation that was used to create our training and test images.
+Based on how we trained our model, we update a few code in the server.py file to use the transformation that was used to create our training and test images. We update the link to the saved model and also the name of the file containing the model. For me, my file name is full_model_export1.pkl
+
 
 ### Step 4: Update index.html
 Update the index.html to match the classes you are predicting.
