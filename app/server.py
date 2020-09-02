@@ -14,18 +14,18 @@ from torchvision import datasets, models, transforms
 export_file_url = 'https://aidris559lab4.s3.amazonaws.com/Trained_Model_For_Ant_And_Bees/full_model_export1.pkl'
 export_file_name = 'full_model_export1.pkl'
 
-data_transforms_wo_normalization = {
+data_transforms_with_normalization = {
     'train': transforms.Compose([
         transforms.RandomResizedCrop(224),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        transforms.Normalize([0.5052, 0.4579, 0.3312], [0.2724, 0.2566, 0.277])
     ]),
     'val': transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
         transforms.ToTensor(),
-        # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        transforms.Normalize([0.5052, 0.4579, 0.3312], [0.2724, 0.2566, 0.277])
     ]),
 }
 
