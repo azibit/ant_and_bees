@@ -8,9 +8,26 @@ from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
+import torchvision
+from torchvision import datasets, models, transforms
 
 export_file_url = 'https://aidris559lab4.s3.amazonaws.com/Trained_Model_For_Ant_And_Bees/full_model_export1.pkl'
 export_file_name = 'full_model_export1.pkl'
+
+data_transforms_wo_normalization = {
+    'train': transforms.Compose([
+        transforms.RandomResizedCrop(224),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+    'val': transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        # transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]),
+}
 
 classes = ['ants', 'bees']
 path = Path(__file__).parent
@@ -60,8 +77,14 @@ async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
     img = open_image(BytesIO(img_bytes))
-    prediction = learn.predict(img)[0]
-    return JSONResponse({'result': str(prediction)})
+    print("We came here 1")
+    transform = data_transforms_with_normalization['val']
+    x = transform(img)
+    output = model_ft(x)
+    print("We came here 2")
+    pred = torch.argmax(output, 1)
+    print("We came here 3")
+    return JSONResponse({'result': classes[pred.item()]})
 
 
 if __name__ == '__main__':
