@@ -82,6 +82,7 @@ async def analyze(request):
     print("We came here 1")
     transform = data_transforms_with_normalization['val']
     x = transform(img)
+    x = x.unsqueeze(0)
     output = learn(x)
     print("We came here 2")
     pred = torch.argmax(output, 1)
