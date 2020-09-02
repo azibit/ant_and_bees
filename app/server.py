@@ -10,6 +10,7 @@ from starlette.responses import HTMLResponse, JSONResponse
 from starlette.staticfiles import StaticFiles
 import torchvision
 from torchvision import datasets, models, transforms
+import PIL
 
 export_file_url = 'https://aidris559lab4.s3.amazonaws.com/Trained_Model_For_Ant_And_Bees/full_model_export1.pkl'
 export_file_name = 'full_model_export1.pkl'
@@ -76,7 +77,8 @@ async def homepage(request):
 async def analyze(request):
     img_data = await request.form()
     img_bytes = await (img_data['file'].read())
-    img = open_image(BytesIO(img_bytes))
+    # img = open_image(BytesIO(img_bytes))
+    img = PIL.Image.open(BytesIO(img_bytes))
     print("We came here 1")
     transform = data_transforms_with_normalization['val']
     x = transform(img)
